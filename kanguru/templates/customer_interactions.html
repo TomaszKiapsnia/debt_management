@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="text-right">
+      <a class="btn btn-primary " href="{{ url_for('add_interaction', customer_id=customer.id) }}" role="button">Nowa interakcja</a>
+    </div>
+    <div class="text-left">
+      <h4>Lista akcji u klienta {{ customer.details }}</h4>
+    </div>
+
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Data i godzina</th>
+        <th scope="col">Opis</th>
+        <th scope="col">Rachunek</th>
+        <th scope="col">Zapłacono</th>
+        <th scope="col">Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for interaction in interactions %}
+       <tr>
+       <td> {{ interaction.date.strftime('%Y-%m-%d %H:%M') }} </td>
+       <td> {{ interaction.details }} </td>
+       <td> {{ interaction.bill }} </td>
+       <td> {{ interaction.paid }} </td>
+       <td>
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_interaction', interaction_id=interaction.id) }}">Edytuj</a>
+       </td>
+     </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+{% endblock content %}

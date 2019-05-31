@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="text-right">
+      <a class="btn btn-primary " href="{{ url_for('add_customer') }}" role="button">Dodaj nowego klienta</a>
+    </div>
+    <div class="text-left">
+      <h4>Lista klientów</h4>
+    </div>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+        <div class="form-group">
+
+            {% if form.details.errors %}
+                {{ form.details(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.details.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.details(class="form-control form-control-lg") }}
+            {% endif %}
+       </div>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Opis klienta</th>
+      <th scope="col">Stan konta</th>
+      <th scope="col">Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for customer in customers %}
+  <tr>
+    <td> {{ customer.details}} </td>
+    <td> {{ customer.debt}} </td>
+    <td>
+       <a class="btn btn-xs btn-info" href="{{url_for('customer_interactions', customer_id=customer.id)}}"role="button">Interakcje</a>
+       <a class="btn btn-xs btn-info" href="{{url_for('customer', customer_id=customer.id)}}" role="button">Detale</a>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+
+
+
+
+{% endblock content %}
