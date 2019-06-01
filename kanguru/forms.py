@@ -25,6 +25,10 @@ class InteractionForm(FlaskForm):
     date = DateTimeField('Data i godzina yyyy-mm-dd hh:mm', default=datetime.today, validators=[DataRequired()], format="%Y-%m-%d %H:%M")
     submit = SubmitField('Dodaj')
 
+    def validate_date(self, date):
+        if date.data > datetime.now():
+            raise ValidationError('Data musi byc z przeszlosci!')
+
 
 class SearchForm(FlaskForm):
     details = TextField()
