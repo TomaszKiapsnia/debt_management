@@ -86,8 +86,8 @@ def add_customer():
 def customer(customer_id):
 
   customer = Customer.query.get_or_404(customer_id)
-  bill = db.session.query(func.sum(Interaction.bill)).filter(Interaction.customer_id == customer_id).first()
-  paid = db.session.query(func.sum(Interaction.paid)).filter(Interaction.customer_id == customer_id).first()
+  bill = db.session.query(func.coalesce(func.sum(Interaction.bill), 0)).filter(Interaction.customer_id == customer_id).first()
+  paid = db.session.query(func.coalesce(func.sum(Interaction.paid), 0)).filter(Interaction.customer_id == customer_id).first()
 
   try:
     debt = paid[0] - bill[0]
@@ -97,8 +97,8 @@ def customer(customer_id):
   lm_year = (datetime.now() - timedelta(days=datetime.now().day + 1)).year
   lm_month = (datetime.now() - timedelta(days=datetime.now().day + 1)).month
 
-  lm_bill = db.session.query(func.sum(Interaction.bill)).filter(Interaction.customer_id == customer_id).filter(func.extract('year', Interaction.date) == lm_year).filter(func.extract('month', Interaction.date) == lm_month).first()
-  lm_paid = db.session.query(func.sum(Interaction.paid)).filter(Interaction.customer_id == customer_id).filter(func.extract('year', Interaction.date) == lm_year).filter(func.extract('month', Interaction.date) == lm_month).first()
+  lm_bill = db.session.query(func.coalesce(func.sum(Interaction.bill), 0)).filter(Interaction.customer_id == customer_id).filter(func.extract('year', Interaction.date) == lm_year).filter(func.extract('month', Interaction.date) == lm_month).first()
+  lm_paid = db.session.query(func.coalesce(func.sum(Interaction.paid), 0)).filter(Interaction.customer_id == customer_id).filter(func.extract('year', Interaction.date) == lm_year).filter(func.extract('month', Interaction.date) == lm_month).first()
 
   try:
     lm_debt = lm_paid[0] - lm_bill[0]
