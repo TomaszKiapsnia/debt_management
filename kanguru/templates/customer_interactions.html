@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="text-right">
-      <a class="btn btn-primary " href="{{ url_for('add_interaction', customer_id=customer.id) }}" role="button">Nowa interakcja</a>
+        <a class="btn btn-primary " href="{{ url_for('add_interaction', customer_id=customer.id) }}" role="button">Nowa transakcja</a>
     </div>
-    <div class="text-left">
-      <h4>Lista akcji u klienta {{ customer.details }}</h4>
+
+    <div>
+      <h4 class="text-left">Lista akcji u klienta {{ customer.details }}</h4>
+      <h4 class="text-left">Stan konta {{debt}}
     </div>
 
     <table class="table">

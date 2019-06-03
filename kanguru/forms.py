@@ -21,7 +21,7 @@ class CustomerForm(FlaskForm):
 class InteractionForm(FlaskForm):
     details = TextField('Detale', validators=[DataRequired()])
     bill = IntegerField('Rachunek', validators=[InputRequired()])
-    paid = IntegerField('Platnosc', validators=[InputRequired()])
+    paid = IntegerField('Zaplacono', validators=[InputRequired()])
     date = DateTimeField('Data i godzina yyyy-mm-dd hh:mm', default=datetime.today, validators=[DataRequired()], format="%Y-%m-%d %H:%M")
     submit = SubmitField('Dodaj')
 
