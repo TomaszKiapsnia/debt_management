@@ -8,6 +8,8 @@ from kanguru.models import Customer, Interaction, Employee
 from sqlalchemy.sql import func
 from datetime import datetime, timedelta
 
+rows_per_page = 2
+
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/login", methods=['GET', 'POST'])
@@ -30,6 +32,7 @@ def login():
 @login_required
 def customers():
     form = SearchForm()
+    page = request.args.get('page', 1, type=int)
     if form.details.data is not None:
         # customers = db.engine.execute("""SELECT c.id
         #                                             ,c.details
@@ -45,13 +48,15 @@ def customers():
             .outerjoin(Interaction, Interaction.customer_id == Customer.id)\
             .filter(Customer.details.like('%' + form.details.data + '%'))\
             .group_by(Customer.details, Customer.id)\
-            .order_by(Customer.details.desc())
+            .order_by(Customer.details.desc())\
+            .paginate(page=page, per_page=rows_per_page)
     else:
 
         customers = db.session.query(Customer.id, Customer.details, func.coalesce(func.sum(Interaction.paid - Interaction.bill), 0).label('debt'))\
             .outerjoin(Interaction, Interaction.customer_id == Customer.id)\
             .group_by(Customer.details, Customer.id)\
-            .order_by(Customer.details.desc())
+            .order_by(Customer.details.desc())\
+            .paginate(page=page, per_page=rows_per_page)
         # customers = db.engine.execute("""SELECT c.id
         #                                        ,c.details
         #                                        ,COALESCE(SUM(i.paid-i.bill),0) AS debt
@@ -164,7 +169,10 @@ def delete_customer(customer_id):
 @app.route("/customer/<int:customer_id>/interactions")
 @login_required
 def customer_interactions(customer_id):
-    customer_interactions = Interaction.query.filter_by(customer_id=customer_id).order_by(Interaction.date.desc())
+    page = request.args.get('page', 1, type=int)
+    customer_interactions = Interaction.query.filter_by(customer_id=customer_id)\
+        .order_by(Interaction.date.desc())\
+        .paginate(page=page, per_page=rows_per_page)
     customer = Customer.query.get_or_404(customer_id)
     debt = calc_debt(customer_id)
     return render_template('customer_interactions.html',

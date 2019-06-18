@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-    {% for interaction in interactions %}
+    {% for interaction in interactions.items %}
        <tr>
        <td> {{ interaction.date.strftime('%Y-%m-%d %H:%M') }} </td>
        <td> {{ interaction.details }} </td>
@@ -33,5 +33,16 @@
     {% endfor %}
     </tbody>
     </table>
+     {% for page_num in interactions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+     {% if page_num %}
+        {% if interactions.page == page_num %}
+           <a  class="btn btn-info mb-4 " href="{{url_for('customer_interactions', customer_id=customer.id, page=page_num)}}">{{ page_num }} </a>
+        {% else %}
+           <a  class="btn btn-outline-info mb-4 " href="{{ url_for('customer_interactions', customer_id=customer.id, page=page_num)}}">{{ page_num }} </a>
+        {% endif %}
+     {% else %}
+        ...
+     {% endif %}
+  {% endfor %}
 
 {% endblock content %}
