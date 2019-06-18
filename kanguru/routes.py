@@ -8,7 +8,7 @@ from kanguru.models import Customer, Interaction, Employee
 from sqlalchemy.sql import func
 from datetime import datetime, timedelta
 
-rows_per_page = 2
+rows_per_page = 20
 
 
 @app.route("/", methods=['GET', 'POST'])
