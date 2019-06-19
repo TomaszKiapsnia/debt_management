@@ -4,7 +4,7 @@
     <div class="media-body">
       <div class="article-metadata">
           <div class='text-right'>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_customer', customer_id=customer.id) }}">Zmień</a>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('customers.update_customer', customer_id=customer.id) }}">Zmień</a>
             <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Usuń</button>
           </div>
       </div>
@@ -50,7 +50,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('delete_customer', customer_id=customer.id) }}" method="POST">
+          <form action="{{ url_for('customers.delete_customer', customer_id=customer.id) }}" method="POST">
             <input class="btn btn-danger" type="submit" value="Delete">
           </form>
         </div>

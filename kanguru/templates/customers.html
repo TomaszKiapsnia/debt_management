@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="text-right">
-      <a class="btn btn-primary " href="{{ url_for('add_customer') }}" role="button">Dodaj nowego klienta</a>
+      <a class="btn btn-primary " href="{{ url_for('customers.add_customer') }}" role="button">Dodaj nowego klienta</a>
     </div>
     <div class="text-left">
       <h4>Lista klientów</h4>
@@ -42,8 +42,8 @@
     <td> {{ customer.details}} </td>
     <td> {{ customer.debt}} </td>
     <td>
-       <a class="btn btn-xs btn-info" href="{{url_for('customer_interactions', customer_id=customer.id)}}"role="button">Interakcje</a>
-       <a class="btn btn-xs btn-info" href="{{url_for('customer', customer_id=customer.id)}}" role="button">Detale</a>
+       <a class="btn btn-xs btn-info" href="{{url_for('customers.customer_interactions', customer_id=customer.id)}}"role="button">Interakcje</a>
+       <a class="btn btn-xs btn-info" href="{{url_for('customers.customer', customer_id=customer.id)}}" role="button">Detale</a>
     </td>
   </tr>
   {% endfor %}
@@ -52,9 +52,9 @@
   {% for page_num in customers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
      {% if page_num %}
         {% if customers.page == page_num %}
-           <a  class="btn btn-info mb-4 " href="{{ url_for('customers', page=page_num)}}">{{ page_num }} </a>
+           <a  class="btn btn-info mb-4 " href="{{ url_for('customers.customers', page=page_num)}}">{{ page_num }} </a>
         {% else %}
-           <a  class="btn btn-outline-info mb-4 " href="{{ url_for('customers', page=page_num)}}">{{ page_num }} </a>
+           <a  class="btn btn-outline-info mb-4 " href="{{ url_for('customers.customers', page=page_num)}}">{{ page_num }} </a>
         {% endif %}
      {% else %}
         ...
