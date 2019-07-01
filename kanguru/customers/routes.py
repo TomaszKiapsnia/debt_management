@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 bp_customers = Blueprint('customers', __name__)
 
-rows_per_page = 2
+rows_per_page = 20
 
 
 @bp_customers.route("/", methods=['GET', 'POST'])
@@ -144,37 +144,3 @@ def delete_customer(customer_id):
     db.session.commit()
     flash('Klient usuniety!', 'success')
     return redirect(url_for('customers.customers'))
-
-
-@bp_customers.route("/customer/<int:customer_id>/interactions")
-@login_required
-def customer_interactions(customer_id):
-    page = request.args.get('page', 1, type=int)
-    customer_interactions = Interaction.query.filter_by(customer_id=customer_id)\
-        .order_by(Interaction.date.desc())\
-        .paginate(page=page, per_page=rows_per_page)
-    customer = Customer.query.get_or_404(customer_id)
-    debt = calc_debt(customer_id)
-    return render_template('customer_interactions.html',
-                           title='Transakcje klienta',
-                           interactions=customer_interactions,
-                           customer=customer,
-                           debt=debt)
-
-
-@bp_customers.route("/customer/<int:customer_id>/add_interaction", methods=['GET', 'POST'])
-@login_required
-def add_interaction(customer_id):
-    form = InteractionForm()
-    customer = Customer.query.get_or_404(customer_id)
-    if form.validate_on_submit():
-        new_interaction = Interaction(details=form.details.data,
-                                      customer_id=customer_id,
-                                      date=form.date.data,
-                                      bill=form.bill.data,
-                                      paid=form.paid.data)
-        db.session.add(new_interaction)
-        db.session.commit()
-        return redirect(url_for('customers.customer_interactions', customer_id=customer.id))
-    return render_template('add_interaction.html', title='Nowa transakcja',
-                           form=form, legend='Nowa transakcja')

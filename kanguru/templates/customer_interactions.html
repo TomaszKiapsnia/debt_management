@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="text-right">
-        <a class="btn btn-primary " href="{{ url_for('customers.add_interaction', customer_id=customer.id) }}" role="button">Nowa transakcja</a>
+        <a class="btn btn-primary " href="{{ url_for('interactions.add_interaction', customer_id=customer.id) }}" role="button">Nowa transakcja</a>
     </div>
 
     <div>
@@ -36,9 +36,9 @@
      {% for page_num in interactions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
      {% if page_num %}
         {% if interactions.page == page_num %}
-           <a  class="btn btn-info mb-4 " href="{{url_for('customers.customer_interactions', customer_id=customer.id, page=page_num)}}">{{ page_num }} </a>
+           <a  class="btn btn-info mb-4 " href="{{url_for('interactions.customer_interactions', customer_id=customer.id, page=page_num)}}">{{ page_num }} </a>
         {% else %}
-           <a  class="btn btn-outline-info mb-4 " href="{{ url_for('customers.customer_interactions', customer_id=customer.id, page=page_num)}}">{{ page_num }} </a>
+           <a  class="btn btn-outline-info mb-4 " href="{{ url_for('interactions.customer_interactions', customer_id=customer.id, page=page_num)}}">{{ page_num }} </a>
         {% endif %}
      {% else %}
         ...
