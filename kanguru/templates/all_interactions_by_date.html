@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div>
+      <h4 class="text-left">Lista wszystkich transakcji</h4>
+    </div>
+
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Klient</th>
+        <th scope="col">Data i godzina</th>
+        <th scope="col">Opis</th>
+        <th scope="col">Rachunek</th>
+        <th scope="col">Zapłacono</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for interaction in interactions.items %}
+       <tr>
+       <td> {{ interaction.customer_details }} </td>
+       <td> {{ interaction.date.strftime('%Y-%m-%d %H:%M') }} </td>
+       <td> {{ interaction.details }} </td>
+       <td> {{ interaction.bill }} </td>
+       <td> {{ interaction.paid }} </td>
+     </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+     {% for page_num in interactions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+     {% if page_num %}
+        {% if interactions.page == page_num %}
+           <a  class="btn btn-info mb-4 " href="{{url_for('interactions.all_interactions_by_date', page=page_num)}}">{{ page_num }} </a>
+        {% else %}
+           <a  class="btn btn-outline-info mb-4 " href="{{ url_for('interactions.all_interactions_by_date', page=page_num)}}">{{ page_num }} </a>
+        {% endif %}
+     {% else %}
+        ...
+     {% endif %}
+  {% endfor %}
+
+{% endblock content %}
