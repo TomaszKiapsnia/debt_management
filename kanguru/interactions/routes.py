@@ -78,6 +78,16 @@ def add_interaction(customer_id):
                            form=form, legend='Nowa transakcja')
 
 
+@bp_interactions.route("/interactions/<int:interaction_id>/delete", methods=['GET', 'POST'])
+@login_required
+def delete_interaction(interaction_id):
+    interaction = Interaction.query.get_or_404(interaction_id)
+    db.session.delete(interaction)
+    db.session.commit()
+    flash('Interakcja usunieta!', 'success')
+    return redirect(url_for('interactions.customer_interactions', customer_id=interaction.customer_id))
+
+
 @bp_interactions.route("/interactions/all_interactions_by_date")
 @login_required
 def all_interactions_by_date():
