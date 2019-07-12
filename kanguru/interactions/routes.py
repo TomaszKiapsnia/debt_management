@@ -92,8 +92,8 @@ def delete_interaction(interaction_id):
 @login_required
 def all_interactions_by_date():
     page = request.args.get('page', 1, type=int)
-    interactions = db.session.query(Customer.id, Customer.details.label("customer_details"), Interaction.details, Interaction.bill, Interaction.paid, Interaction.date)\
-        .outerjoin(Interaction, Interaction.customer_id == Customer.id)\
+    interactions = db.session.query(Interaction.id, Customer.details.label("customer_details"), Interaction.details, Interaction.bill, Interaction.paid, Interaction.date)\
+        .outerjoin(Customer, Interaction.customer_id == Customer.id)\
         .order_by(Interaction.date.desc())\
         .paginate(page=1, per_page=rows_per_page)
 

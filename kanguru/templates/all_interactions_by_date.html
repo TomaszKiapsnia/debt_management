@@ -13,6 +13,7 @@
         <th scope="col">Opis</th>
         <th scope="col">Rachunek</th>
         <th scope="col">Zapłacono</th>
+        <th scope="col">Akcje</th>
       </tr>
     </thead>
     <tbody>
@@ -23,6 +24,9 @@
        <td> {{ interaction.details }} </td>
        <td> {{ interaction.bill }} </td>
        <td> {{ interaction.paid }} </td>
+       <td>
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('interactions.update_interaction', interaction_id=interaction.id) }}">Edytuj</a>
+       </td>
      </tr>
     {% endfor %}
     </tbody>
