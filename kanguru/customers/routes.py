@@ -102,6 +102,7 @@ def add_customer():
 
 
 @bp_customers.route("/customer/<int:customer_id>")
+@login_required
 def customer(customer_id):
     customer = Customer.query.get_or_404(customer_id)
     debt = calc_debt(customer_id)

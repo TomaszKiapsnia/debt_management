@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div>
+      <h4 class="text-left">Statystyki całościowe</h4>
+    </div>
+
+    <caption>{{lm_month}} {{lm_year}} </caption>
+    <table class="table">    
+    <thead>
+      <tr>
+        <th scope="col">rachunki</th>
+        <th scope="col">długi</th>
+     </tr>
+    </thead>
+    <tbody>
+    <tr>
+       <td> {{lm_bill}} </td>
+       <td> {{lm_debt}} </td>
+    </tr>
+    </tbody>
+    </table>
+    
+    <caption>Całościowe</caption>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">rachunki</th>
+        <th scope="col">długi</th>
+     </tr>
+    </thead>
+    <tbody>
+    <tr>
+       <td> {{h_bill}} </td>
+       <td> {{h_debt}} </td>
+    </tr>
+    </tbody>
+    </table>
+    
+{% endblock content %}

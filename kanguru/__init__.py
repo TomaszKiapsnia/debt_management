@@ -14,6 +14,8 @@ login_manager.login_message_category = 'info'
 
 from kanguru.customers.routes import bp_customers
 from kanguru.interactions.routes import bp_interactions
+from kanguru.statistics.routes import bp_statistics
 
 app.register_blueprint(bp_customers)
 app.register_blueprint(bp_interactions)
+app.register_blueprint(bp_statistics)
